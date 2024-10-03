@@ -40,15 +40,7 @@ jobs:
             exit 1
           fi
 
-      - name: Install SnowSQL
-        run: |
-          # Rendre l'installateur exécutable
-          chmod +x snowsql-1.3.2-linux_x86_64.bash
-          # Exécute l'installateur avec des options pour forcer l'installation et supprimer les invites
-          ./snowsql-1.3.2-linux_x86_64.bash --install --yes || {
-            echo "SnowSQL installation failed!"
-            exit 1
-          }
+    
 
       - name: Set up Python
         uses: actions/setup-python@v4  # Mise à jour vers la dernière version
