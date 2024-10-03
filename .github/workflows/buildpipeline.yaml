@@ -52,7 +52,7 @@ jobs:
         run: |
           # Configurer la connexion en utilisant les variables d'environnement
           snow connection add --connection-name connect-snow \
-            --account-name $SNOWFLAKE_ACCOUNT \
+            --account $SNOWFLAKE_ACCOUNT \
             --username $SNOWFLAKE_USER \
             --password $SNOWFLAKE_PASSWORD \
             --role $SNOWFLAKE_ROLE \
