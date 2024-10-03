@@ -48,6 +48,7 @@ jobs:
           mkdir -p ~/.snowsql
           echo "[connections]" > ~/.snowsql/config
           echo "account = \"$SNOWFLAKE_PASSWORD\"" >> ~/.snowsql/config
+          chmod 0600 ~/.snowsql/config
          
           
       - name: Run SnowCLI Commands
