@@ -40,14 +40,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Configure Snowflake connection
+        run: |
+          snow connection configure --account-name ${{ secrets.SNOWFLAKE_ACCOUNT }} \
+            --username ${{ secrets.SNOWFLAKE_USER }} \
+            --password-env-var SNOWFLAKE_PASSWORD \
+            --role ${{ secrets.SNOWFLAKE_ROLE }} \
+            --warehouse ${{ secrets.SNOWFLAKE_WAREHOUSE }} \
+            --database ${{ secrets.SNOWFLAKE_DATABASE }} \
+            --schema ${{ secrets.SNOWFLAKE_SCHEMA }}
       
-      - name: Configure SnowCLI
+      - name: Run SnowCLI Commands
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}  # Optional
-          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }} 
         run: |
           snow sql -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
           snow sql  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
