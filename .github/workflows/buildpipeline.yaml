@@ -24,14 +24,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4  # Mise à jour vers la dernière version
-      - name: Install SnowSQL
+       - name: Install SnowSQL
         run: |
-          # Installer les dépendances nécessaires
+         
           sudo apt-get update
           sudo apt-get install -y curl unzip
 
-          # Télécharger et installer SnowSQL
-          curl -o snowsql.zip https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.zip
+          # Télécharger SnowSQL
+          curl -L -o snowsql.zip https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.zip
+
+          # Vérifier si le fichier a été téléchargé correctement
+          ls -lh snowsql.zip
+          file snowsql.zip  # Vérifier le type de fichier
+
+          # Extraire SnowSQL
           unzip snowsql.zip
           sudo cp snowsql /usr/local/bin/
           sudo chmod +x /usr/local/bin/snowsql
