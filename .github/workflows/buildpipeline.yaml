@@ -22,12 +22,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Checkout code
+        uses: actions/checkout@v3  # Mise à jour vers la dernière version
+
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Mise à jour vers la dernière version
         with:
-          python-version: '3.9'
+          python-version: '3.9'  # Spécifiez la version de Python
+
 
       # Runs a single command using the runners shell
       - name: Install Python packages
