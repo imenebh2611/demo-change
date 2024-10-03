@@ -34,7 +34,7 @@ jobs:
         run: echo "Forcing Node.js 20"  # Ajout d'une étape avec 'run' pour forcer Node.js 20
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
-
+      
       # Runs a single command using the runners shell
       - name: Install Python packages
         run: |
@@ -42,6 +42,15 @@ jobs:
           pip install -r requirements.txt
     
       - name: Set up Snowflake connection
+        env:
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          mkdir -p ~/.snowsql
+          echo "[connections]" > ~/.snowsql/config
+          echo "account = \"$SNOWFLAKE_PASSWORD\"" >> ~/.snowsql/config
+         
+          
+      - name: Run SnowCLI Commands
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -51,17 +60,5 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
-          mkdir -p ~/.snowsql
-          echo "[connections]" > ~/.snowsql/config
-          echo "account=$SNOWFLAKE_ACCOUNT" > ~/.snowsql/config
-          echo "username=$SNOWFLAKE_USER" >> ~/.snowsql/config
-          echo "password=$SNOWFLAKE_PASSWORD" >> ~/.snowsql/config
-          echo "role=$SNOWFLAKE_ROLE" >> ~/.snowsql/config
-          echo "warehouse=$SNOWFLAKE_WAREHOUSE" >> ~/.snowsql/config
-          echo "database=$SNOWFLAKE_DATABASE" >> ~/.snowsql/config
-          echo "schema=$SNOWFLAKE_SCHEMA" >> ~/.snowsql/config
-          
-      - name: Run SnowCLI Commands
-        run: |
-          snow sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
-          snow sql  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
+          snow --config-file ~/.snowsql/config sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
+          snow --config-file ~/.snowsql/config sql  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
