@@ -1,0 +1,5 @@
+INSERT INTO MY_INVENTORY
+VALUES 
+  ('XYZ453' , 10.00),
+  (' XYZ123' , 50.00),
+  ('XYZ988' , 30.00) ;
