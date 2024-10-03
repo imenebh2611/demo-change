@@ -1,0 +1,13 @@
+# Fichier requirements.txt
+
+# Installation d'une bibliothèque spécifique
+requests==2.26.0
+
+# Installation de la dernière version d'une bibliothèque
+flask
+
+# Installation d'une bibliothèque d'une version minimale
+numpy>=1.21.0
+
+# Installation d'une bibliothèque d'une version maximale
+pandas<1.3.0
