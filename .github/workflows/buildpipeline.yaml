@@ -51,7 +51,7 @@ jobs:
               exit 1
           fi
 
-          # Vérifie que le fichier est un format gzip
+          # Vérifie que le fichier est bien au format gzip
           if file snowcli.tar.gz | grep -q 'gzip compressed data'; then
               echo "Extracting SnowCLI..."
               tar -xzf snowcli.tar.gz -C /usr/local/bin --strip-components=1
