@@ -23,11 +23,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: checkout repository
-        uses: actions/checkout@v4
-      - name: Setup Python 3.10
-        uses: actions/setup-python@v4
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
       # Runs a single command using the runners shell
       - name: Install Python packages
