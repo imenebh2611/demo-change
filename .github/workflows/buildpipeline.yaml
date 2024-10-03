@@ -28,11 +28,11 @@ jobs:
         run: |
           # Installer les dépendances nécessaires
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev
-          
+          sudo apt-get install -y curl unzip
+
           # Télécharger et installer SnowSQL
-          curl -o snowsql-linux_amd64.tgz https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.tgz
-          tar -xzf snowsql-linux_amd64.tgz
+          curl -o snowsql.zip https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.zip
+          unzip snowsql.zip
           sudo cp snowsql /usr/local/bin/
           sudo chmod +x /usr/local/bin/snowsql
       - name: Set up Python
