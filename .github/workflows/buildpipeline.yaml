@@ -51,27 +51,21 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
-          # Ajouter la connexion
-          snow connection add --connection-name connect-snow \
-            --account "$SNOWFLAKE_ACCOUNT" \
-            --username "$SNOWFLAKE_USER" \
-            --password "$SNOWFLAKE_PASSWORD" \
-            --role "$SNOWFLAKE_ROLE" \
-            --warehouse "$SNOWFLAKE_WAREHOUSE" \
-            --database "$SNOWFLAKE_DATABASE" \
-            --schema "$SNOWFLAKE_SCHEMA"
+          mkdir -p ~/.snowsql
+          echo "account=$SNOWFLAKE_ACCOUNT" > ~/.snowsql/config
+          echo "username=$SNOWFLAKE_USER" >> ~/.snowsql/config
+          echo "password=$SNOWFLAKE_PASSWORD" >> ~/.snowsql/config
+          echo "role=$SNOWFLAKE_ROLE" >> ~/.snowsql/config
+          echo "warehouse=$SNOWFLAKE_WAREHOUSE" >> ~/.snowsql/config
+          echo "database=$SNOWFLAKE_DATABASE" >> ~/.snowsql/config
+          echo "schema=$SNOWFLAKE_SCHEMA" >> ~/.snowsql/config
+          
+          # Configurer la connexion par défaut avec SnowCLI (assurez-vous que la config est correcte)
+          snow connection set-default --connection-name connect-snow
 
           # Configurer la connexion par défaut
           snow connection set-default --connection-name connect-snow
       - name: Run SnowCLI Commands
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
-          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           snow sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
           snow sql  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
