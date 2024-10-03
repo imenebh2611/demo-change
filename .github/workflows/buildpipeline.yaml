@@ -43,7 +43,12 @@ jobs:
       - name: Install SnowCLI
         run: |
           echo "Downloading SnowCLI..."
-          curl -L -o snowcli.tar.gz https://github.com/snowflakedb/snowcli/releases/latest/download/snowcli_linux_amd64.tar.gz
+          
+          # Récupérer la dernière version de SnowCLI depuis l'API GitHub
+          LATEST_URL=$(curl -s https://api.github.com/repos/snowflakedb/snowcli/releases/latest | grep 'browser_download_url' | grep 'linux_amd64' | cut -d '"' -f 4)
+
+          echo "Downloading from: $LATEST_URL"
+          curl -L -o snowcli.tar.gz $LATEST_URL
 
           # Vérifie si le fichier a été téléchargé avec succès
           if [[ ! -f "snowcli.tar.gz" ]]; then
@@ -52,6 +57,9 @@ jobs:
           fi
 
           # Vérifie que le fichier est bien au format gzip
+          echo "Downloaded file type:"
+          file snowcli.tar.gz
+
           if file snowcli.tar.gz | grep -q 'gzip compressed data'; then
               echo "Extracting SnowCLI..."
               tar -xzf snowcli.tar.gz -C /usr/local/bin --strip-components=1
