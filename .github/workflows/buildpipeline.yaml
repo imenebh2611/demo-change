@@ -42,7 +42,7 @@ jobs:
           pip install -r requirements.txt
       - name: Configure Snowflake connection
         run: |
-          snow connection configure --account-name ${{ secrets.SNOWFLAKE_ACCOUNT }} \
+          snow connection add --account-name ${{ secrets.SNOWFLAKE_ACCOUNT }} \
             --username ${{ secrets.SNOWFLAKE_USER }} \
             --password-env-var SNOWFLAKE_PASSWORD \
             --role ${{ secrets.SNOWFLAKE_ROLE }} \
