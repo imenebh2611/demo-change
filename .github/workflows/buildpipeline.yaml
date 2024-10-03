@@ -23,7 +23,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-        uses: actions/checkout@v3  # Mise à jour vers la dernière version
+        uses: actions/checkout@v4  # Mise à jour vers la dernière version
 
       - name: Set up Python
         uses: actions/setup-python@v4  # Mise à jour vers la dernière version
@@ -33,7 +33,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install Python packages
-        run: pip install -r requirement.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       # Runs a set of commands using the runners shell
       - name: Configure SnowCLI
