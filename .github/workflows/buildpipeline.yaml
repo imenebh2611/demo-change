@@ -52,6 +52,7 @@ jobs:
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           mkdir -p ~/.snowsql
+          echo "[connections]" > ~/.snowsql/config
           echo "account=$SNOWFLAKE_ACCOUNT" > ~/.snowsql/config
           echo "username=$SNOWFLAKE_USER" >> ~/.snowsql/config
           echo "password=$SNOWFLAKE_PASSWORD" >> ~/.snowsql/config
@@ -60,11 +61,6 @@ jobs:
           echo "database=$SNOWFLAKE_DATABASE" >> ~/.snowsql/config
           echo "schema=$SNOWFLAKE_SCHEMA" >> ~/.snowsql/config
           
-          # Configurer la connexion par défaut avec SnowCLI (assurez-vous que la config est correcte)
-          snow connection set-default --connection-name connect-snow
-
-          # Configurer la connexion par défaut
-          snow connection set-default --connection-name connect-snow
       - name: Run SnowCLI Commands
         run: |
           snow sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
