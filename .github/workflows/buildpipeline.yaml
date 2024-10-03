@@ -26,21 +26,16 @@ jobs:
         uses: actions/checkout@v4  # Mise à jour vers la dernière version
       - name: Install SnowSQL
         run: |
-         
+          # Install necessary dependencies
           sudo apt-get update
-          sudo apt-get install -y curl unzip
+          sudo apt-get install -y curl
 
-          # Télécharger SnowSQL
-          curl -L -o snowsql.zip https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.zip
-
-          # Vérifier si le fichier a été téléchargé correctement
-          ls -lh snowsql.zip
-          file snowsql.zip  # Vérifier le type de fichier
-
-          # Extraire SnowSQL
-          unzip snowsql.zip
+          # Download and install SnowSQL
+          curl -o snowsql.tgz https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/latest/snowSQL-linux_amd64.tgz
+          tar -xzf snowsql.tgz
           sudo cp snowsql /usr/local/bin/
           sudo chmod +x /usr/local/bin/snowsql
+
       - name: Set up Python
         uses: actions/setup-python@v4  # Mise à jour vers la dernière version
         with:
