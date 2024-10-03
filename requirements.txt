@@ -1,13 +1,8 @@
-# Fichier requirements.txt
+# Requirements for Snowflake CLI and Python connector
 
-# Installation d'une bibliothèque spécifique
-requests==2.26.0
+# Install Snowflake Connector for Python
+snowflake-connector-python==3.9  # Remplacez <version> par la version souhaitée, par exemple, 2.7.0
 
-# Installation de la dernière version d'une bibliothèque
-flask
+# Si vous avez besoin de pandas ou d'autres bibliothèques pour la manipulation des données
+pandas==1.5.3  # Exemple de version, ajustez selon vos besoins
 
-# Installation d'une bibliothèque d'une version minimale
-numpy>=1.21.0
-
-# Installation d'une bibliothèque d'une version maximale
-pandas<1.3.0
