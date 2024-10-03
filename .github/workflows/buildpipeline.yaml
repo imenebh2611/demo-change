@@ -31,9 +31,10 @@ jobs:
           python-version: '3.9'  # Spécifiez la version de Python
 
       - name: Force Node.js 20
+        run: echo "Forcing Node.js 20"  # Ajout d'une étape avec 'run' pour forcer Node.js 20
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
-          
+
       # Runs a single command using the runners shell
       - name: Install Python packages
         run: |
