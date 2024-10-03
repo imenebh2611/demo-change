@@ -1,8 +1,3 @@
-# Requirements for Snowflake CLI and Python connector
-
-# Install Snowflake Connector for Python
-snowflake-connector-python==3.9  # Remplacez <version> par la version souhaitée, par exemple, 2.7.0
-
-# Si vous avez besoin de pandas ou d'autres bibliothèques pour la manipulation des données
-pandas==1.5.3  # Exemple de version, ajustez selon vos besoins
-
+snowflake-cli-labs
+pandas==1.3.5
+numpy==1.21.6
