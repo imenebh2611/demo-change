@@ -1,0 +1,1 @@
+EXECUTE IMMEDIATE FROM  './tables/inventory.sql' ;
