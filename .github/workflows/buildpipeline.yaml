@@ -44,7 +44,7 @@ jobs:
         run: |
           snow connection add --connection-name connect-snow --account ${{ secrets.SNOWFLAKE_ACCOUNT }} \
             --username ${{ secrets.SNOWFLAKE_USER }} \
-            --password ${{SNOWFLAKE_PASSWORD}} \
+            --password ${{secrets.SNOWFLAKE_PASSWORD}} \
             --role ${{ secrets.SNOWFLAKE_ROLE }} \
             --warehouse ${{ secrets.SNOWFLAKE_WAREHOUSE }} \
             --database ${{ secrets.SNOWFLAKE_DATABASE }} \
