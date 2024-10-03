@@ -24,17 +24,31 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4  # Mise à jour vers la dernière version
+      - name: Install dependencies
+        run: |
+          # Met à jour la liste des paquets et installe curl
+          sudo apt-get update
+          sudo apt-get install -y curl
+
       - name: Download SnowSQL
         run: |
-          # Download SnowSQL installer
+          # Télécharge le programme d'installation de SnowSQL
           curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-1.3.2-linux_x86_64.bash
+          # Vérifie si le fichier a bien été téléchargé
+          if [ ! -f snowsql-1.3.2-linux_x86_64.bash ]; then
+            echo "SnowSQL installer not found!"
+            exit 1
+          fi
 
       - name: Install SnowSQL
         run: |
-          # Make the installer executable
+          # Rendre l'installateur exécutable
           chmod +x snowsql-1.3.2-linux_x86_64.bash
-          # Run the installer with options to force install and suppress prompts
-          ./snowsql-1.3.2-linux_x86_64.bash --install --yes
+          # Exécute l'installateur avec des options pour forcer l'installation et supprimer les invites
+          ./snowsql-1.3.2-linux_x86_64.bash --install --yes || {
+            echo "SnowSQL installation failed!"
+            exit 1
+          }
 
       - name: Set up Python
         uses: actions/setup-python@v4  # Mise à jour vers la dernière version
