@@ -48,7 +48,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo "[connections]" > config.toml 
           echo "[connections.dev]" > config.toml
-          echo "password = ${{SNOWFLAKE_PASSWORD}}" >> config.toml
+          echo "password = \"$SNOWFLAKE_PASSWORD\"" >> config.toml
           
       - name: Run SnowCLI Commands
         env:
