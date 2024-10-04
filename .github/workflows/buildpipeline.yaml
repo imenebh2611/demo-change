@@ -45,19 +45,10 @@ jobs:
         env:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          if [ ! -d "$HOME/.snowsql" ]; then
-            mkdir -p "$HOME/.snowsql"
-          fi
-          echo "[connections]" > ~/.snowsql/config
-          echo "[connections.default]" > ~/.snowsql/
-          echo "account = ${SNOWFLAKE_ACCOUNT}" >> $HOME/.snowsql/config
-          echo "username = ${SNOWFLAKE_USERNAME}" >> $HOME/.snowsql/config
-          echo "password = ${SNOWFLAKE_PASSWORD}" >> $HOME/.snowsql/config
-          echo "warehouse = ${SNOWFLAKE_WAREHOUSE}" >> $HOME/.snowsql/config
-          echo "database = ${SNOWFLAKE_DATABASE}" >> $HOME/.snowsql/config
-          echo "role = ${SNOWFLAKE_ROLE}" >> $HOME/.snowsql/config
-          chmod 0600 ~/.snowsql/config
-         
+          cd $GITHUB_WORKSPACE
+          echo "[connections]" > config.toml 
+          echo "[connections.dev]" > config.toml
+          echo "password = ${{SNOWFLAKE_PASSWORD}}" >> config.toml
           
       - name: Run SnowCLI Commands
         env:
@@ -69,5 +60,5 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
-          snow --config-file $HOME/.snowsql/config sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
-          snow --config-file $HOME/.snowsql/config  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
+          snow --config-file $GITHUB_WORKSPACE/config.toml sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
+          snow --config-file $GITHUB_WORKSPACE/config.toml  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
