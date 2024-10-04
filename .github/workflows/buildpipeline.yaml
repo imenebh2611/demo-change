@@ -63,5 +63,5 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
-          snow --config-file $GITHUB_WORKSPACE/config.toml sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
-          snow --config-file $GITHUB_WORKSPACE/config.toml  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
+          snow --config-file $GITHUB_WORKSPACE/config.toml sql -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
+          snow --config-file $GITHUB_WORKSPACE/config.toml sql -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
