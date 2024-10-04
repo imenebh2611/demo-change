@@ -45,15 +45,17 @@ jobs:
         env:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          mkdir -p ~/.snowsql
+           if [ ! -d "$HOME/.snowsql" ]; then
+            mkdir -p "$HOME/.snowsql"
+          fi
           echo "[connections]" > ~/.snowsql/config
           echo "[connections.default]" > ~/.snowsql/
-          echo "account = ${SNOWFLAKE_ACCOUNT}" >> ~/.snowsql/config
-          echo "username = ${SNOWFLAKE_USERNAME}" >> ~/.snowsql/config
-          echo "password = ${SNOWFLAKE_PASSWORD}" >> ~/.snowsql/config
-          echo "warehouse = ${SNOWFLAKE_WAREHOUSE}" >> ~/.snowsql/config
-          echo "database = ${SNOWFLAKE_DATABASE}" >> ~/.snowsql/config
-          echo "role = ${SNOWFLAKE_ROLE}" >> ~/.snowsql/config
+          echo "account = ${SNOWFLAKE_ACCOUNT}" >> $HOME/.snowsql/config
+          echo "username = ${SNOWFLAKE_USERNAME}" >> $HOME/.snowsql/config
+          echo "password = ${SNOWFLAKE_PASSWORD}" >> $HOME/.snowsql/config
+          echo "warehouse = ${SNOWFLAKE_WAREHOUSE}" >> $HOME/.snowsql/config
+          echo "database = ${SNOWFLAKE_DATABASE}" >> $HOME/.snowsql/config
+          echo "role = ${SNOWFLAKE_ROLE}" >> $HOME/.snowsql/config
           chmod 0600 ~/.snowsql/config
          
           
@@ -67,5 +69,5 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
-          snow --config-file ~/.snowsql/config sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
-          snow --config-file ~/.snowsql/config sql  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
+          snow --config-file $HOME/.snowsql/config sql  -q "ALTER GIT REPOSITORY IBH_REPO FETCH"  
+          snow --config-file $HOME/.snowsql/config  -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql" 
