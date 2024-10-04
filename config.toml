@@ -1,4 +1,4 @@
-[connections.dev]
+[connections.default]
 account = "xmb91291"
 user = "IMENE"
 warehouse = "IBHTEST_WH"
