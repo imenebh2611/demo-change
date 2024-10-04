@@ -47,8 +47,13 @@ jobs:
         run: |
           mkdir -p ~/.snowsql
           echo "[connections]" > ~/.snowsql/config
-          echo "[connections.dev]" > ~/.snowsql/config
-          echo "account = \"$SNOWFLAKE_PASSWORD\"" >> ~/.snowsql/config
+          echo "[connections.default]" > ~/.snowsql/
+          echo "account = ${SNOWFLAKE_ACCOUNT}" >> ~/.snowsql/config
+          echo "username = ${SNOWFLAKE_USERNAME}" >> ~/.snowsql/config
+          echo "password = ${SNOWFLAKE_PASSWORD}" >> ~/.snowsql/config
+          echo "warehouse = ${SNOWFLAKE_WAREHOUSE}" >> ~/.snowsql/config
+          echo "database = ${SNOWFLAKE_DATABASE}" >> ~/.snowsql/config
+          echo "role = ${SNOWFLAKE_ROLE}" >> ~/.snowsql/config
           chmod 0600 ~/.snowsql/config
          
           
