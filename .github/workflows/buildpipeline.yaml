@@ -49,7 +49,10 @@ jobs:
           echo "[connections]" > config.toml 
           echo "[connections.dev]" > config.toml
           echo "password = \"$SNOWFLAKE_PASSWORD\"" >> config.toml
-          
+      - name: Set correct permissions for config.toml
+        run: |
+          sudo chown $USER "$GITHUB_WORKSPACE/config.toml"
+          sudo chmod 0600 "$GITHUB_WORKSPACE/config.toml"    
       - name: Run SnowCLI Commands
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
