@@ -45,7 +45,7 @@ jobs:
         env:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-           if [ ! -d "$HOME/.snowsql" ]; then
+          if [ ! -d "$HOME/.snowsql" ]; then
             mkdir -p "$HOME/.snowsql"
           fi
           echo "[connections]" > ~/.snowsql/config
