@@ -46,8 +46,7 @@ jobs:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
           cd $GITHUB_WORKSPACE
-          echo "[connections]" > config.toml 
-          echo "[connections.dev]" >> config.toml
+          echo "[connections]" > config.toml
           echo "password = \"$SNOWFLAKE_PASSWORD\"" >> config.toml
       - name: Set correct permissions for config.toml
         run: |
