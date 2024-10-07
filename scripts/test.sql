@@ -1,0 +1,4 @@
+
+
+
+select * from  IBHTEST_DB.DEV_TEST.CUSTOMER_DATA ;
