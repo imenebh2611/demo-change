@@ -1,4 +1,2 @@
 
-
-
-select * from  IBHTEST_DB.DEV_TEST.CUSTOMER_DATA ;
+select * from  IBHTEST_DB.DEV_TEST.CUSTOMER_DETAILS ;
