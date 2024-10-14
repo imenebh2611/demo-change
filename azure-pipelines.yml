@@ -17,10 +17,7 @@ steps:
   - checkout: self  # Vérifie le code du dépôt, y compris config.toml
 
   # Étape 2 : Configurer Python
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.9'  # Spécifiez la version de Python
-      addToPath: true
+
 
   # Étape 3 : Installer les paquets Python
   - script: |
