@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+      - main  # Déclenche le pipeline sur des modifications de la branche "main"
+
+# Pour permettre l'exécution manuelle du pipeline
+pr:  # Utilisé pour les demandes de tirage
+  branches:
+    include:
+      - main
+
+pool:
+   name: default  # Utilise une image Ubuntu
+
+steps:
+  # Étape 1 : Vérifier le code
+  - checkout: self  # Vérifie le code du dépôt, y compris config.toml
+
+  # Étape 2 : Configurer Python
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.9'  # Spécifiez la version de Python
+      addToPath: true
+
+  # Étape 3 : Installer les paquets Python
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Installer les paquets Python'
+
+  # Étape 4 : Exécuter les commandes SnowCLI
+  - script: |
+      echo "Exécuter ALTER GIT REPOSITORY"
+      snow --config-file $(Build.SourcesDirectory)/config.toml sql -q "ALTER GIT REPOSITORY IBH_REPO FETCH"
+      echo "Exécuter le script SQL avec EXECUTE IMMEDIATE"
+      snow --config-file $(Build.SourcesDirectory)/config.toml sql -q "EXECUTE IMMEDIATE FROM @IBH_REPO/branches/main/snowflake_objects/deploy_object.sql"
+    env:
+      SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
+      SNOWFLAKE_USER: $(SNOWFLAKE_USER)
+      SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+      SNOWFLAKE_ROLE: $(SNOWFLAKE_ROLE)
+      SNOWFLAKE_WAREHOUSE: $(SNOWFLAKE_WAREHOUSE)
+      SNOWFLAKE_DATABASE: $(SNOWFLAKE_DATABASE)
+      SNOWFLAKE_SCHEMA: $(SNOWFLAKE_SCHEMA)
+    displayName: 'Exécuter les commandes SnowCLI'
